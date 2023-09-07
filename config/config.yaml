@@ -38,4 +38,5 @@ model_evaluation:
   model_path: artifacts/model_trainer/
   tokenizer_path: artifacts/model_trainer
   metric_file_name: artifacts/model_evaluation/metrics.csv
+  graph: artifacts/model_evaluation/
 

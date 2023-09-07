@@ -50,9 +50,9 @@ class ModelTrainer:
                             batch_size = 30, callbacks=[callback])
        
         ## Save model
-        # model.save_pretrained(os.path.join(self.config.root_dir,"bert-news-classify-model"))
+        # model.save_pretrained(os.path.join(self.config.root_dir,"bert-news-classify-model.pkl"))
 
         # Save history
-        # with open(os.path.join(self.config.root_dir,'history'), 'wb') as file:
+        # with open(os.path.join(self.config.root_dir,'history.pkl'), 'wb') as file:
         #     pickle.dump(history, file)
 
