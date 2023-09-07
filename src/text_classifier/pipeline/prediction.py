@@ -1,6 +1,6 @@
 from text_classifier.config.configuration import ConfigurationManager
-from transformers import AutoTokenizer
-from transformers import pipeline
+from text_classifier.conponents.data_transformation import DataTransformation
+import numpy as np
 
 
 class PredictionPipeline:
@@ -10,16 +10,14 @@ class PredictionPipeline:
 
     
     def predict(self,text):
-        tokenizer = AutoTokenizer.from_pretrained(self.config.tokenizer_path)
-        gen_kwargs = {"length_penalty": 0.8, "num_beams":8, "max_length": 128}
+        test_text = text['text'] + text['title']
+        tokenizer = DataTransformation.convert_examples_to_features(test_text)
+        model = self.config.model_path
+        test_token = self.config.test_encodings
+        test_text_pred = np.where(model.predict({ 'input_1' : test_token['input_ids'] , 'input_2' : test_token['attention_mask']}) >=0.5,1,0)
 
-        pipe = pipeline("summarization", model=self.config.model_path,tokenizer=tokenizer)
-
-        print("Dialogue:")
-        print(text)
-
-        output = pipe(text, **gen_kwargs)[0]["summary_text"]
-        print("\nModel Summary:")
-        print(output)
-
+        if(test_text_pred[0]==0):
+            output = "News is Fake"
+        else:
+            output = "News is Real"
         return output
